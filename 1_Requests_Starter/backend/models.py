@@ -14,7 +14,7 @@ db = SQLAlchemy()
 setup_db(app)
     binds a flask application and a SQLAlchemy service
 """
-
+# backend/books.psql  /home/salaudeen/udacity/API-Development-and-Documentation-exercises/1_Requests_Starter/backend/books.psql
 
 def setup_db(app, database_path=database_path):
     app.config["SQLALCHEMY_DATABASE_URI"] = database_path
