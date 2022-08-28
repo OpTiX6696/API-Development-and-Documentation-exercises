@@ -1,3 +1,4 @@
+from crypt import methods
 import os
 from flask import Flask, request, abort, jsonify
 from flask_sqlalchemy import SQLAlchemy  # , or_
@@ -37,7 +38,7 @@ def create_app(test_config=None):
         )
         return response
 
-    @app.route("/books")
+    @app.route("/books", methods=['GET'])
     def retrieve_books():
         selection = Book.query.order_by(Book.id).all()
         current_books = paginate_books(request, selection)
@@ -53,6 +54,12 @@ def create_app(test_config=None):
             }
         )
 
+    # @app.route('/books/<int:book_id>', methods=['GET'])
+    # def get_book(book_id):
+        
+    
+    
+    
     @app.route("/books/<int:book_id>", methods=["PATCH"])
     def update_book(book_id):
 
@@ -145,5 +152,14 @@ def create_app(test_config=None):
     @app.errorhandler(400)
     def bad_request(error):
         return jsonify({"success": False, "error": 400, "message": "bad request"}), 400
+    
+    @app.errorhandler(405)
+    def not_allowed(error):
+        
+        return jsonify({
+            'success': False,
+            'error': 405,
+            'message': 'Method not allowed'
+        })
 
     return app
